@@ -39,10 +39,9 @@ class bookInfo:
 class getPDF:
 	URL = 'http://gen.lib.rus.ec/search.php?req=%s&open=0&view=simple&phrase=1&column=%s'
 	API_USER = "pavitrakumar"
-	API_KEY = "R_5c56ed996cea43619b8aacc3c9d8809f"
+	API_KEY = "<YOUR-API-KEY>"
 	def __init__(self,search_query,search_type):
 		self.query = search_query.strip().replace(" ","+")
-		#self.query = self.query.replace(" ","+")
 		self.type = search_type
 		print self.query," is the query"
 
@@ -98,17 +97,6 @@ class getPDF:
 		for book in bookList:
 			print book
 
-
-"""
-book = getPDF("Introduction to Automata Theory")
-m = book.connect()
-n = book.formatList(m)
-book.printList(n)
-
-m = "/BN:Introduction to Automata Theory"
-print m[4:]
-print '/BN:' in m
-"""
 
 
 
