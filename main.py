@@ -11,8 +11,8 @@ from urllib2 import HTTPError, URLError
 import telegram.error
 from telegram.error import TelegramError
 
-bot = telegram.Bot('100911342:AAGE50CfxEqpsWErNlIlARd7ycUCtlY69mw')
-bot.setWebhook('https://getpdf-project.appspot.com/100911342:AAGE50CfxEqpsWErNlIlARd7ycUCtlY69mw')
+bot = telegram.Bot('<TELEGRAM API KEY>')
+bot.setWebhook('https://<PROJECT-ID>.appspot.com/<TELEGRAM API KEY>')
 
 class getPDFBotWebhookPage(webapp2.RequestHandler):
 
@@ -37,14 +37,9 @@ class getPDFBotWebhookPage(webapp2.RequestHandler):
         if message is not None:
             if '/start' in message or '/help' in message:
                 self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_START)
-                #try:
-                #    bot.sendMessage(chat_id=chat_id,text='Hello! I am getPDF Bot, I can get you the links of any book you want. What book would you like to search for?\n\nYou can control me by sending these commands:[Note: \'x\' is the number of search results that will be displyed]\n\n/BN:<bookname>{x} - Search for a book by its name.\n/AN:<author name>{x} - Search books written by the given author.\n')
-                #except TelegramError as e:
-                #    print "telegram error",e
-                #except URLError as e:
-                #    print "URL  error",e
+
             printList = list()
-            no_of_res = 5 # default, max = 21
+            no_of_res = 5 # default, max = all results on page 1
             name = None
             if '/BN:' in message or '/bn:' in message:
                 req_message = True
@@ -60,17 +55,6 @@ class getPDFBotWebhookPage(webapp2.RequestHandler):
                 else:
                     req_message = False
                     self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_SMALL)
-                #else:
-                #    req_message = False
-                #    self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_INVALID)
-                #print name,no_of_res
-                #if name is not None:
-                #    book = getPDF(name,"title")
-                #    bookList = book.connect()
-                #    printList = book.formatList(bookList)
-                #elif format == 0:
-                #    req_message = False
-                #    self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_INVALID)
 
             if '/AN:' in message or '/an:' in message:
                 req_message = True
@@ -86,34 +70,15 @@ class getPDFBotWebhookPage(webapp2.RequestHandler):
                 else:
                     req_message = False
                     self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_SMALL)  
-                #name,no_of_res,format = self.checkInput(message[4:])
-                #print name,no_of_res
-                #if name is not None:
-                #    book = getPDF(name,"author")
-                #    bookList = book.connect()
-                #    printList = book.formatList(bookList)
-                #elif format == 0:
-                #    req_message = False
-                #    self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_INVALID)
 
             if len(printList) > 0 and req_message == True:
                 for i,eachBook in enumerate(printList,1):
                     if i <= no_of_res:
                         self.sendMessageFn(chat_id,eachBook)
-                        #try:
-                        #    bot.sendMessage(chat_id=chat_id, text=eachBook)
-                        #except TelegramError as e:
-                        #    print "telegram error",e
-                        #except URLError as e:
-                        #    print "URL  error",e
+                        
             elif len(printList) == 0 and req_message == True:
                 self.sendMessageFn(chat_id,getPDFBotWebhookPage.MESSAGE_NORESULT)
-                #try:
-                #    bot.sendMessage(chat_id=chat_id, text ="Sorry, No results!")
-                #except TelegramError as e:
-                #    print "telegram error",e
-                #except URLError as e:
-                #    print "URL  error",e
+
         self.response.write(json.dumps(body))
 
     def sendMessageFn(self,id,message):
@@ -145,7 +110,7 @@ class getPDFBotWebhookPage(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/100911342:AAGE50CfxEqpsWErNlIlARd7ycUCtlY69mw', getPDFBotWebhookPage),
+    ('/<TELEGRAM API KEY>', getPDFBotWebhookPage),
 ], debug=True)
 
 def main():
