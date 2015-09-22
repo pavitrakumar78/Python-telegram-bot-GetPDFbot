@@ -96,16 +96,3 @@ class getPDF:
 	def printList(self,bookList):
 		for book in bookList:
 			print book
-
-
-
-
-
-
-
-
-
-
-
-
-
